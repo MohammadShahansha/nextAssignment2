@@ -60,22 +60,19 @@ const userSchema = new Schema<IUser>({
       required: true,
     },
   },
-  orders: [
-    {
-      productName: {
-        type: String,
-        required: true,
-      },
-      price: {
-        type: Number,
-        required: true,
-      },
-      quantity: {
-        type: Number,
-        required: true,
-      },
-    },
-  ],
+  // orders: [
+  //   {
+  //     productName: {
+  //       type: String,
+  //     },
+  //     price: {
+  //       type: Number,
+  //     },
+  //     quantity: {
+  //       type: Number,
+  //     },
+  //   },
+  // ],
 });
 
-export const User = model<IUser>('User', userSchema);
+export const UserModel = model<IUser>('User', userSchema);
