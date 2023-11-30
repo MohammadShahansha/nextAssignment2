@@ -18,8 +18,25 @@ const getSingleUserFromDB = async (userId: number) => {
   console.log(result, userId);
   return result;
 };
-const updateUser = async (id: number, userData: IUser) => {
-  const result = await UserModel.updateOne({ id, userData });
+
+// const updateUserFromDB = async (id: number, userData: IUser) => {
+//   console.log(id, userData);
+//   const result = await UserModel.findByIdAndUpdate(id, userData, {
+//     new: true,
+//   });
+//   return result;
+// };
+
+const updateUserFromDB = async (id: number, userData: IUser) => {
+  const result = await UserModel.findByIdAndUpdate(id, userData, {
+    new: true,
+    runValidators: true,
+  });
+  return result;
+};
+
+const deleteUserFromDB = async (userId: number) => {
+  const result = await UserModel.findByIdAndDelete(userId);
   return result;
 };
 
@@ -27,5 +44,6 @@ export const userServices = {
   createUsersIntoDB,
   getAllUsersFromDB,
   getSingleUserFromDB,
-  updateUser,
+  updateUserFromDB,
+  deleteUserFromDB,
 };

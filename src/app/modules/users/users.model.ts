@@ -60,19 +60,19 @@ const userSchema = new Schema<IUser>({
       required: true,
     },
   },
-  // orders: [
-  //   {
-  //     productName: {
-  //       type: String,
-  //     },
-  //     price: {
-  //       type: Number,
-  //     },
-  //     quantity: {
-  //       type: Number,
-  //     },
-  //   },
-  // ],
+  orders: [
+    {
+      productName: {
+        type: String,
+      },
+      price: {
+        type: Number,
+      },
+      quantity: {
+        type: Number,
+      },
+    },
+  ],
 });
 
 export const UserModel = model<IUser>('User', userSchema);
