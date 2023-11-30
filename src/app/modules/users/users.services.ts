@@ -13,11 +13,11 @@ const getAllUsersFromDB = async () => {
   return result;
 };
 
-// const getSingleUserFromDB = async (id: number) => {
-//   const result = await UserModel.findOne({ id });
-//   return result;
-// };
-
+const getSingleUserFromDB = async (userId: number) => {
+  const result = await UserModel.findOne({ userId });
+  console.log(result, userId);
+  return result;
+};
 const updateUser = async (id: number, userData: IUser) => {
   const result = await UserModel.updateOne({ id, userData });
   return result;
@@ -26,6 +26,6 @@ const updateUser = async (id: number, userData: IUser) => {
 export const userServices = {
   createUsersIntoDB,
   getAllUsersFromDB,
-  // getSingleUserFromDB,
+  getSingleUserFromDB,
   updateUser,
 };
