@@ -1,4 +1,4 @@
-// import { Model } from 'mongoose';
+import { Model } from 'mongoose';
 
 export type IUser = {
   userId: number;
@@ -26,15 +26,15 @@ export type IUser = {
   ];
 };
 
-// export interface userStaticModel extends Model<IUser> {
-//   isUserExists(id: string): Promise<IUser | null>;
-// }
+export interface userStaticModel extends Model<IUser> {
+  isUserExists(id: number): Promise<IUser | null>;
+}
 
-// export type userStaticMethod = {
-//   isUserExists(id: string): Promise<IUser>;
+// export type userInstanceMethod = {
+//   isUserExist(id: number): Promise<IUser | null>;
 // };
-// export type userStaticModel = Model<
+// export type userInstanceModel = Model<
 //   IUser,
 //   Record<string, never>,
-//   userStaticMethod
+//   userInstanceMethod
 // >;

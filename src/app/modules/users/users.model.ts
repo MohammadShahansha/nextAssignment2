@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IUser } from './users.interface';
+import { IUser, userStaticModel } from './users.interface';
 import bcript from 'bcrypt';
 import config from '../../config';
 
@@ -9,7 +9,7 @@ import config from '../../config';
 //     avatar: String
 // , userStaticModel
 
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<IUser, userStaticModel>({
   userId: {
     type: Number,
     required: true,
@@ -92,9 +92,9 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
-// userSchema.statics.isUserExists = async function (id: string) {
-//   const existingUser = await UserModel.findOne({ id });
-//   return existingUser;
-// };
+userSchema.statics.isUserExists = async function (userId: string) {
+  const existingUser = await UserModel.findOne({ userId });
+  return existingUser;
+};
 
-export const UserModel = model<IUser>('User', userSchema);
+export const UserModel = model<IUser, userStaticModel>('UserModel', userSchema);
