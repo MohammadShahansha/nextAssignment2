@@ -14,7 +14,7 @@ const getAllUsersFromDB = async () => {
 };
 
 const getSingleUserFromDB = async (userId: number) => {
-  const result = await UserModel.findOne({ userId });
+  const result = await UserModel.findOne({ userId }).select('-password');
   console.log(result, userId);
   return result;
 };
@@ -72,12 +72,13 @@ const updateOrdersFromDB = async (
   }
 };
 
-const getAllOrdersFromDB = async () => {
-  const result = await UserModel.aggregate([{ $project: { orders: 1 } }]);
+const getAllOrdersFromDB = async (userId: number) => {
+  const result = await UserModel.findOne({ userId }, { orders: 1 });
+  console.log(result, userId);
   return result;
 };
-const getTotalPriceFromDB = async () => {
-  const result = await UserModel.aggregate([{ $project: { orders: 1 } }]);
+const getTotalPriceFromDB = async (userId: number) => {
+  const result = await UserModel.findOne({ userId }, { orders: 1 });
   return result;
 };
 

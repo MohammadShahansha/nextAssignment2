@@ -102,11 +102,36 @@ const updateOrderUser = async (req: Request, res: Response) => {
 
 const getAllOrders = async (req: Request, res: Response) => {
   try {
-    const result = await userServices.getAllOrdersFromDB();
+    // console.log(req.params);
+    const { userId } = req.params;
+    const userNumber = Number(userId);
+    const result = await userServices.getAllOrdersFromDB(userNumber);
     res.status(200).json({
       success: true,
-      message: 'order fetched successfully!',
+      message: 'get ordered successfully!',
       data: result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+const getTotalPrice = async (req: Request, res: Response) => {
+  try {
+    // console.log(req.params);
+    const { userId } = req.params;
+    const userNumber = Number(userId);
+    const result = await userServices.getTotalPriceFromDB(userNumber);
+    // console.log(result);
+    const totalPrice = result?.orders?.reduce(
+      (sum, order) => sum + order.price * order.quantity,
+      0,
+    );
+    res.status(200).json({
+      success: true,
+      message: 'get ordered successfully!',
+      data: {
+        totalPrice: totalPrice,
+      },
     });
   } catch (err) {
     console.log(err);
@@ -121,4 +146,5 @@ export const userController = {
   deleteUser,
   updateOrderUser,
   getAllOrders,
+  getTotalPrice,
 };
