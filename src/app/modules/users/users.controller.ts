@@ -54,10 +54,10 @@ const getSingleUser = async (req: Request, res: Response) => {
 const updateUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const userIdNumber = Number(userId);
-    const { userData } = req.body;
-    console.log(userIdNumber, req.body);
-    const result = await userServices.updateUserFromDB(userIdNumber, userData);
+    // const userIdNumber = Number(userId);
+    const userData = req.body;
+    console.log(userId, req.body);
+    const result = await userServices.updateUserFromDB(userId, userData);
     res.status(200).json({
       success: true,
       message: 'User updated successfully!',
@@ -82,10 +82,43 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+// order update------------
+const updateOrderUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    // const userIdNumber = Number(userId);
+    const ordersData = req.body.orders;
+    console.log(userId, ordersData);
+    const result = await userServices.updateOrdersFromDB(userId, ordersData);
+    res.status(200).json({
+      success: true,
+      message: 'User Ordered successfully!',
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getAllOrders = async (req: Request, res: Response) => {
+  try {
+    const result = await userServices.getAllOrdersFromDB();
+    res.status(200).json({
+      success: true,
+      message: 'order fetched successfully!',
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const userController = {
   creatUser,
   getAllUsers,
   getSingleUser,
   updateUser,
   deleteUser,
+  updateOrderUser,
+  getAllOrders,
 };

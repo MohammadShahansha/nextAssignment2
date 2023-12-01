@@ -1,10 +1,13 @@
 import { Schema, model } from 'mongoose';
 import { IUser } from './users.interface';
+import bcript from 'bcrypt';
+import config from '../../config';
 
 // const userSchema = new Schema<IUser>({
 //     name: { type: String, required: true },
 //     email: { type: String, required: true },
 //     avatar: String
+// , userStaticModel
 
 const userSchema = new Schema<IUser>({
   userId: {
@@ -74,5 +77,24 @@ const userSchema = new Schema<IUser>({
     },
   ],
 });
+
+userSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  user.password = await bcript.hash(
+    user.password,
+    Number(config.bcript_salt_round),
+  );
+  next();
+});
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+// userSchema.statics.isUserExists = async function (id: string) {
+//   const existingUser = await UserModel.findOne({ id });
+//   return existingUser;
+// };
 
 export const UserModel = model<IUser>('User', userSchema);

@@ -19,24 +19,65 @@ const getSingleUserFromDB = async (userId: number) => {
   return result;
 };
 
-// const updateUserFromDB = async (id: number, userData: IUser) => {
-//   console.log(id, userData);
-//   const result = await UserModel.findByIdAndUpdate(id, userData, {
-//     new: true,
-//   });
-//   return result;
-// };
-
-const updateUserFromDB = async (id: number, userData: IUser) => {
-  const result = await UserModel.findByIdAndUpdate(id, userData, {
+const updateUserFromDB = async (userId: string, userData: IUser) => {
+  const result = await UserModel.findOneAndUpdate({ userId }, userData, {
     new: true,
     runValidators: true,
   });
   return result;
 };
 
+// const updateUserFromDB = async (
+//   userId: string,
+//   userData: IUser,
+// ): Promise<IUser | null> => {
+//   const result = await UserModel.findOneAndUpdate(
+//     { userId: userId },
+//     userData,
+//     {
+//       new: true,
+//       runValidators: true,
+//     },
+//   );
+//   return result;
+// };
+
 const deleteUserFromDB = async (userId: number) => {
-  const result = await UserModel.findByIdAndDelete(userId);
+  const result = await UserModel.findOneAndDelete({ userId });
+  return result;
+};
+
+// const updateOrdersFromDB = async (userId: string, userData: IUser) => {
+//   const result = await UserModel.findOneAndUpdate({ userId }, userData, {
+//     new: true,
+//     runValidators: true,
+//   });
+//   return result;
+// };
+
+const updateOrdersFromDB = async (
+  userId: string,
+  ordersData: { poductName: string; price: number; quantity: number }[],
+): Promise<IUser | null> => {
+  try {
+    const result = await UserModel.findOneAndUpdate(
+      { userId: userId },
+      { $push: { orders: { $each: [ordersData] } } },
+      { new: true, runValidators: true },
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+const getAllOrdersFromDB = async () => {
+  const result = await UserModel.aggregate([{ $project: { orders: 1 } }]);
+  return result;
+};
+const getTotalPriceFromDB = async () => {
+  const result = await UserModel.aggregate([{ $project: { orders: 1 } }]);
   return result;
 };
 
@@ -46,4 +87,7 @@ export const userServices = {
   getSingleUserFromDB,
   updateUserFromDB,
   deleteUserFromDB,
+  updateOrdersFromDB,
+  getAllOrdersFromDB,
+  getTotalPriceFromDB,
 };

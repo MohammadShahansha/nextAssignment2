@@ -1,3 +1,5 @@
+// import { Model } from 'mongoose';
+
 export type IUser = {
   userId: number;
   username: string;
@@ -23,3 +25,16 @@ export type IUser = {
     },
   ];
 };
+
+// export interface userStaticModel extends Model<IUser> {
+//   isUserExists(id: string): Promise<IUser | null>;
+// }
+
+// export type userStaticMethod = {
+//   isUserExists(id: string): Promise<IUser>;
+// };
+// export type userStaticModel = Model<
+//   IUser,
+//   Record<string, never>,
+//   userStaticMethod
+// >;
