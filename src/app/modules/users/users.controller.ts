@@ -4,8 +4,6 @@ import { userSchema } from './user.validation';
 
 const creatUser = async (req: Request, res: Response) => {
   try {
-    // const { user } = req.body;
-    console.log(req.body);
     const zodParseData = userSchema.parse(req.body);
     const result = await userServices.createUsersIntoDB(zodParseData);
     res.status(200).json({
@@ -37,7 +35,6 @@ const getAllUsers = async (req: Request, res: Response) => {
 
 const getSingleUser = async (req: Request, res: Response) => {
   try {
-    // console.log(req.params);
     const { userId } = req.params;
     const userNumber = Number(userId);
     const result = await userServices.getSingleUserFromDB(userNumber);
@@ -61,9 +58,7 @@ const getSingleUser = async (req: Request, res: Response) => {
 const updateUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    // const userIdNumber = Number(userId);
     const userData = req.body;
-    // console.log(userId, req.body);
     const result = await userServices.updateUserFromDB(userId, userData);
     res.status(200).json({
       success: true,
@@ -83,7 +78,6 @@ const updateUser = async (req: Request, res: Response) => {
 };
 const deleteUser = async (req: Request, res: Response) => {
   try {
-    console.log(req.params);
     const { userId } = req.params;
     const userNumber = Number(userId);
     await userServices.deleteUserFromDB(userNumber);
@@ -108,9 +102,7 @@ const deleteUser = async (req: Request, res: Response) => {
 const updateOrderUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    // const userIdNumber = Number(userId);
     const ordersData = req.body.orders;
-    // console.log(userId, ordersData);
     await userServices.updateOrdersFromDB(userId, ordersData);
     res.status(200).json({
       success: true,
@@ -131,7 +123,6 @@ const updateOrderUser = async (req: Request, res: Response) => {
 
 const getAllOrders = async (req: Request, res: Response) => {
   try {
-    // console.log(req.params);
     const { userId } = req.params;
     const userNumber = Number(userId);
     const result = await userServices.getAllOrdersFromDB(userNumber);
@@ -153,11 +144,9 @@ const getAllOrders = async (req: Request, res: Response) => {
 };
 const getTotalPrice = async (req: Request, res: Response) => {
   try {
-    // console.log(req.params);
     const { userId } = req.params;
     const userNumber = Number(userId);
     const result = await userServices.getTotalPriceFromDB(userNumber);
-    // console.log(result);
     const totalPrice = result?.orders?.reduce(
       (sum, order) => sum + order.price * order.quantity,
       0,

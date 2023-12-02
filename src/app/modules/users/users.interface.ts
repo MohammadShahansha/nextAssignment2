@@ -17,13 +17,11 @@ export type IUser = {
     city: string;
     country: string;
   };
-  orders?: [
-    {
-      productName: string;
-      price: number;
-      quantity: number;
-    },
-  ];
+  orders?: {
+    productName: string;
+    price: number;
+    quantity: number;
+  }[];
 };
 
 export interface userStaticModel extends Model<IUser> {
