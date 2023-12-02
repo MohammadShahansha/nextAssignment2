@@ -27,7 +27,10 @@ const getSingleUserFromDB = async (userId: number) => {
   return result;
 };
 
-const updateUserFromDB = async (userId: string, userData: IUser) => {
+const updateUserFromDB = async (userId: number, userData: IUser) => {
+  if (!(await UserModel.isUserExists(userId))) {
+    throw new Error('User not found');
+  }
   const result = await UserModel.findOneAndUpdate({ userId }, userData, {
     new: true,
     runValidators: true,
@@ -74,6 +77,9 @@ const getAllOrdersFromDB = async (userId: number) => {
   return result;
 };
 const getTotalPriceFromDB = async (userId: number) => {
+  if (!(await UserModel.isUserExists(userId))) {
+    throw new Error('User not found');
+  }
   const result = await UserModel.findOne({ userId }, { orders: 1 });
   return result;
 };
