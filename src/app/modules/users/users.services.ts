@@ -19,6 +19,9 @@ const getAllUsersFromDB = async () => {
 };
 
 const getSingleUserFromDB = async (userId: number) => {
+  if (!(await UserModel.isUserExists(userId))) {
+    throw new Error('User not found');
+  }
   const result = await UserModel.findOne({ userId }).select('-password');
   console.log(result, userId);
   return result;
@@ -48,6 +51,9 @@ const updateUserFromDB = async (userId: string, userData: IUser) => {
 // };
 
 const deleteUserFromDB = async (userId: number) => {
+  if (!(await UserModel.isUserExists(userId))) {
+    throw new Error('User not found');
+  }
   const result = await UserModel.findOneAndDelete({ userId });
   return result;
 };
@@ -64,6 +70,11 @@ const updateOrdersFromDB = async (
   userId: string,
   ordersData: { poductName: string; price: number; quantity: number }[],
 ): Promise<IUser | null> => {
+  const userIdNumber = Number(userId);
+  if (!(await UserModel.isUserExists(userIdNumber))) {
+    throw new Error('User not found');
+  }
+
   try {
     const result = await UserModel.findOneAndUpdate(
       { userId: userId },
@@ -78,11 +89,17 @@ const updateOrdersFromDB = async (
 };
 
 const getAllOrdersFromDB = async (userId: number) => {
+  if (!(await UserModel.isUserExists(userId))) {
+    throw new Error('User not found');
+  }
   const result = await UserModel.findOne({ userId }, { orders: 1 });
   console.log(result, userId);
   return result;
 };
 const getTotalPriceFromDB = async (userId: number) => {
+  if (!(await UserModel.isUserExists(userId))) {
+    throw new Error('User not found');
+  }
   const result = await UserModel.findOne({ userId }, { orders: 1 });
   return result;
 };
